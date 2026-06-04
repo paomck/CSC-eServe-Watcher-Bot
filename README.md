@@ -120,3 +120,7 @@ The CSC eServe portal uses dynamically-rendered HTML. If the watcher fails to fi
 | No calendar detected | Page didn't fully load | Increase `TIMEOUTS.calendar` in `watcher.js` |
 | Telegram not sending | Bad token or chat ID | Verify credentials via `getUpdates` |
 | `ESERVE_COOKIE is not set` | `.env` file missing | Run `cp .env.example .env` and fill in values |
+
+---
+
+🍀 **Goodluck sa mga kukuha ng exam! Kaya yan! 💪😊**
