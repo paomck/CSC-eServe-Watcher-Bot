@@ -31,7 +31,8 @@ CSC Watcher/
 git clone https://github.com/paomck/CSC-eServe-Watcher-Bot.git
 cd CSC-eServe-Watcher-Bot
 npm install
-npx playwright install firefox
+npx playwright install firefox (if you are using Firefox)
+npx playwright install chrome (if you are using Chrome)
 ```
 
 ### 3. Create your `.env` file
