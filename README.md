@@ -12,7 +12,6 @@ CSC Watcher/
 ├── watcher.js      ← Playwright automation core
 ├── notifier.js     ← Telegram push notification
 ├── logger.js       ← Timestamped console logger
-├── .env            ← Your secrets (never commit this!)
 ├── .env.example    ← Template — copy this to .env to get started
 ├── .gitignore
 └── screenshots/    ← Auto-saved debug screenshots
