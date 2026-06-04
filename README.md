@@ -104,7 +104,6 @@ The CSC eServe portal uses dynamically-rendered HTML. If the watcher fails to fi
 
 ## 🔒 Security Notes
 
-- `.env` is listed in `.gitignore` — **never commit it**.
 - Use `.env.example` (no real values) as the template for others to clone and configure.
 - The session cookie grants full access to your CSC account — treat it like a password.
 - The watcher only **reads** the portal — it does not submit any booking on your behalf.
