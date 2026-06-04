@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Environment secrets — NEVER commit this
+.env
+
+# Playwright screenshots / traces
+screenshots/
+test-results/
+
+# Logs
+*.log
+logs/
