@@ -162,11 +162,13 @@ async function runCycle() {
 
 // ─── Worker loop ──────────────────────────────────────────────────────────────
 
+// Single-run mode: run once and exit (used by GitHub Actions)
+// Triggered by passing --single-run as a CLI argument.
+const SINGLE_RUN = process.argv.includes('--single-run');
+
 async function workerLoop() {
   printBanner();
   validateConfig();
-
-  logger.info('Watcher started. Running first check immediately…');
 
   // Graceful shutdown
   process.on('SIGINT',  () => { logger.info('\nReceived SIGINT — shutting down gracefully…');  process.exit(0); });
@@ -177,13 +179,26 @@ async function workerLoop() {
     logger.error('Unhandled rejection (loop will continue):', reason);
   });
 
-  // Continuous polling loop
+  if (SINGLE_RUN) {
+    // ── GitHub Actions mode: run once and exit ─────────────────────────────
+    logger.info('Running in single-run mode (GitHub Actions)…');
+    try {
+      await runCycle();
+    } catch (err) {
+      logger.error('Single-run cycle failed:', err.message);
+      process.exit(1);
+    }
+    logger.info('Single-run complete — exiting.');
+    process.exit(0);
+  }
+
+  // ── Local mode: continuous polling loop ───────────────────────────────────
+  logger.info('Watcher started. Running first check immediately…');
+
   while (true) {
     try {
       await runCycle();
     } catch (err) {
-      // Belt-and-suspenders: watcher.js should catch its own errors,
-      // but we log any leak here so the loop doesn't die silently.
       logger.error('Unexpected error in worker loop (will retry next cycle):', err.message);
     }
 

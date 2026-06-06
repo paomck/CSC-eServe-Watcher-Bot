@@ -1,0 +1,53 @@
+name: CSC eServe Slot Watcher
+
+on:
+  schedule:
+    # Every 10 minutes, 8AM–10AM PHT (UTC+8 = 12AM–2AM UTC), Mon–Fri
+    # Cron format: minute hour day month weekday
+    - cron: '0,10,20,30,40,50 0,1 * * 1-5'   # 8:00AM–9:50AM PHT
+    - cron: '0 2 * * 1-5'                      # 10:00AM PHT (final run)
+  workflow_dispatch:  # allows you to trigger it manually from GitHub UI
+
+jobs:
+  check-slots:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout your code ────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Set up Node.js ────────────────────────────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # ── 3. Install dependencies ──────────────────────────────────────────
+      - name: Install dependencies
+        run: npm ci
+
+      # ── 4. Install Playwright Firefox browser ────────────────────────────
+      - name: Install Playwright Firefox
+        run: npx playwright install firefox --with-deps
+
+      # ── 5. Run the watcher (single cycle, then exit) ─────────────────────
+      - name: Run slot watcher
+        env:
+          ESERVE_COOKIE:      ${{ secrets.ESERVE_COOKIE }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          TARGET_REGION:      NCR
+          TARGET_SERVICE:     Career Service - Professional
+          # POLL_INTERVAL_MS is not needed — we run once per job and exit
+        run: node index.js --single-run
+
+      # ── 6. Upload screenshots on failure (for debugging) ─────────────────
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-screenshots
+          path: screenshots/
+          retention-days: 3
