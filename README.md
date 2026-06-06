@@ -12,7 +12,6 @@ CSC Watcher/
 ├── watcher.js      ← Playwright automation core
 ├── notifier.js     ← Telegram push notification
 ├── logger.js       ← Timestamped console logger
-├── .env            ← Your secrets (never commit this!)
 ├── .env.example    ← Template — copy this to .env to get started
 ├── .gitignore
 └── screenshots/    ← Auto-saved debug screenshots
@@ -32,7 +31,8 @@ CSC Watcher/
 git clone https://github.com/paomck/CSC-eServe-Watcher-Bot.git
 cd CSC-eServe-Watcher-Bot
 npm install
-npx playwright install firefox
+npx playwright install firefox (if you are using Firefox)
+npx playwright install chrome (if you are using Chrome)
 ```
 
 ### 3. Create your `.env` file
@@ -104,7 +104,6 @@ The CSC eServe portal uses dynamically-rendered HTML. If the watcher fails to fi
 
 ## 🔒 Security Notes
 
-- `.env` is listed in `.gitignore` — **never commit it**.
 - Use `.env.example` (no real values) as the template for others to clone and configure.
 - The session cookie grants full access to your CSC account — treat it like a password.
 - The watcher only **reads** the portal — it does not submit any booking on your behalf.
@@ -120,3 +119,7 @@ The CSC eServe portal uses dynamically-rendered HTML. If the watcher fails to fi
 | No calendar detected | Page didn't fully load | Increase `TIMEOUTS.calendar` in `watcher.js` |
 | Telegram not sending | Bad token or chat ID | Verify credentials via `getUpdates` |
 | `ESERVE_COOKIE is not set` | `.env` file missing | Run `cp .env.example .env` and fill in values |
+
+---
+
+🍀 **Goodluck sa mga kukuha ng exam! Kaya yan! 💪😊**
