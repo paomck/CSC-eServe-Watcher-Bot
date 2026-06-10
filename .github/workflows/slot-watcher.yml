@@ -2,10 +2,21 @@ name: CSC eServe Slot Watcher
 
 on:
   schedule:
-    # Every 10 minutes, 8AM–10AM PHT (UTC+8 = 12AM–2AM UTC), Mon–Fri
+    # ── Target window: 8AM–10AM PHT (UTC+8) ──────────────────────────────
+    # GitHub Actions cron can be delayed 15min–2hrs depending on server load.
+    # We schedule 2 hours earlier (6AM PHT = 10PM UTC) to compensate,
+    # giving the bot the best chance of actually running during office hours.
+    #
     # Cron format: minute hour day month weekday
-    - cron: '0,10,20,30,40,50 0,1 * * 1-5'   # 8:00AM–9:50AM PHT
-    - cron: '0 2 * * 1-5'                      # 10:00AM PHT (final run)
+    # PHT → UTC: subtract 8 hours (wraps to previous day for early AM PHT)
+    #
+    #  6:00AM–7:50AM PHT = 10:00PM–11:50PM UTC (prev day) → Sun–Thu (0-4)
+    #  8:00AM–9:50AM PHT = 12:00AM–1:50AM UTC             → Mon–Fri (1-5)
+    # 10:00AM PHT        = 2:00AM UTC                     → Mon–Fri (1-5)
+
+    - cron: '0,10,20,30,40,50 22,23 * * 0-4'  # 6AM–7:50AM PHT
+    - cron: '0,10,20,30,40,50 0,1 * * 1-5'    # 8AM–9:50AM PHT
+    - cron: '0 2 * * 1-5'                      # 10:00AM PHT final run
   workflow_dispatch:  # allows you to trigger it manually from GitHub UI
 
 jobs:
