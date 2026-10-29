@@ -41,7 +41,7 @@ jobs:
 
       # ── 4. Install Playwright Firefox browser ────────────────────────────
       - name: Install Playwright Firefox
-        run: npx playwright install firefox --with-deps
+        run: npx playwright install chromium --with-deps
 
       # ── 5. Run the watcher (single cycle, then exit) ─────────────────────
       - name: Run slot watcher
