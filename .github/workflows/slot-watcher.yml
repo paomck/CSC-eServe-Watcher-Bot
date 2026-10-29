@@ -21,7 +21,7 @@ on:
 
 jobs:
   check-slots:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       # ── 1. Checkout your code ────────────────────────────────────────────
@@ -40,7 +40,7 @@ jobs:
         run: npm ci
 
       # ── 4. Install Playwright Firefox browser ────────────────────────────
-      - name: Install Playwright Firefox
+      - name: Install Playwright Browsers
         run: npx playwright install chromium --with-deps
 
       # ── 5. Run the watcher (single cycle, then exit) ─────────────────────
