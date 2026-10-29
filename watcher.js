@@ -16,7 +16,7 @@
  *      d. Record result
  */
 
-const { firefox } = require('playwright');
+const { chromium } = require('playwright');
 const fs   = require('fs');
 const path = require('path');
 const logger = require('./logger');
@@ -375,8 +375,11 @@ async function checkOneLocation(page, location, service, index) {
 async function checkAllLocations({ cookie, region, service, locations = NCR_LOCATIONS }) {
   let browser = null;
   try {
-    logger.info('Launching headless Firefox…');
-    browser = await firefox.launch({ headless: true });
+    logger.info('Launching logger.info('Launching headless Chromium…');
+    browser = await chromium.launch({ 
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
 
     const context = await browser.newContext({
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0',
