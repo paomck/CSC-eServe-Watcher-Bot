@@ -375,7 +375,7 @@ async function checkOneLocation(page, location, service, index) {
 async function checkAllLocations({ cookie, region, service, locations = NCR_LOCATIONS }) {
   let browser = null;
   try {
-    logger.info('Launching logger.info('Launching headless Chromium…');
+    logger.info('Launching headless Chromium...');
     browser = await chromium.launch({ 
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
